@@ -1,0 +1,48 @@
+# -----------------------------------------------------------------
+# 1. Frontend (whatis-front) Rules
+# -----------------------------------------------------------------
+
+# Dependencies and build output (Next.js and Node)
+node_modules
+.pnp
+.pnp.*
+.yarn/*
+
+.yarn/patches
+.yarn/plugins
+.yarn/releases
+.yarn/versions
+
+# Next.js specific build/cache
+.next/
+out/
+build
+coverage
+
+# Environment and debug files
+.env*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Misc/OS files
+.DS_Store
+*.pem
+.vercel
+
+# -----------------------------------------------------------------
+# 2. Backend (whatis-server) Rules
+# -----------------------------------------------------------------
+whatis-server/models/*
+
+# -----------------------------------------------------------------
+# 3. Project Root/IDE Rules
+# -----------------------------------------------------------------
+.idea/
+.vscode/
+__pycache__/
