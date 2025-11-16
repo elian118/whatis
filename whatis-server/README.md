@@ -1,5 +1,6 @@
-Whatis server
---
+## Whatis server
+
+---
 
 1. 실행환경(uv 기준) 
    - 파이썬 개발환경만 설정하면 되므로, uv 말고 다른 걸로 설정해도 무관
