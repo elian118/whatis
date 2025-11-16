@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 
+from configs.logging import LOGGING_CONFIG
 from service import classify_image
 
 app = FastAPI(
@@ -89,3 +90,13 @@ async def classify_by_upload(file: UploadFile = File(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"서비스 처리 중 오류 발생: {e}")
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    LOGGING_CONFIG['handlers']['default']['stream'] = "ext://sys.stdout"
+    LOGGING_CONFIG['handlers']['access']['stream'] = "ext://sys.stdout"
+
+    # 서버를 코드 레벨에서 실행
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True, log_config=LOGGING_CONFIG)
