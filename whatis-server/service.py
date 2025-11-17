@@ -1,24 +1,25 @@
-from transformers import ViTImageProcessor, ViTForImageClassification
-from PIL import Image
-import torch
-import requests
 import io
 
-# 모델 및 프로세서 로드
-# LOCAL_MODEL_PATH = "./models/vit-base-patch16-224"
-HUB_MODEL_ID = 'google/vit-base-patch16-224'
+import torch
+from PIL import Image
+from transformers import ViTImageProcessor, ViTForImageClassification
+
+from consts.colors import RESET, YELLOW, CYAN
+from consts.paths import LOCAL_MODEL_PATH, HUB_MODEL_ID
 
 # 서버 시작 시 한 번만 로드되도록 전역 변수로 설정
 try:
-    processor = ViTImageProcessor.from_pretrained(HUB_MODEL_ID)
-    model = ViTForImageClassification.from_pretrained(HUB_MODEL_ID)
-    print(f"Service 계층: 모델 로드 완료 ({HUB_MODEL_ID})")
+    processor = ViTImageProcessor.from_pretrained(LOCAL_MODEL_PATH)
+    model = ViTForImageClassification.from_pretrained(LOCAL_MODEL_PATH)
+    print(f"{CYAN}INFO{RESET}:   모델 로드 완료 ({LOCAL_MODEL_PATH})")
 except Exception as e:
     # 로컬 모델 경로가 잘못되었거나 파일이 없을 경우 대비
-    print(f"경고: 로컬 모델 로드 실패. 허깅페이스 허브에서 로드 시도 중: {e}")
-    processor = ViTImageProcessor.from_pretrained('google/vit-base-patch16-224')
-    model = ViTForImageClassification.from_pretrained('google/vit-base-patch16-224')
-    print("Service 계층: 허브 모델 로드 완료")
+    print(f"{YELLOW}WARN{RESET}:   로컬 모델 로드 실패")
+    print(f"{YELLOW}WARN{RESET}:   허깅페이스 허브에서 로드 시도 중")
+    print(f"{e}")
+    processor = ViTImageProcessor.from_pretrained(HUB_MODEL_ID)
+    model = ViTForImageClassification.from_pretrained(HUB_MODEL_ID)
+    print(f"{CYAN}INFO{RESET}:   허브 모델 로드 완료")
 
 
 def classify_image(image_input: bytes) -> str:
